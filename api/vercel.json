@@ -1,0 +1,14 @@
+{
+  "functions": {
+    "api/chat.js": {
+      "runtime": "nodejs18.x"
+    },
+    "api/scam.js": {
+      "runtime": "nodejs18.x"
+    }
+  },
+  "rewrites": [
+    { "source": "/api/chat", "destination": "/api/chat.js" },
+    { "source": "/api/analyze-scam", "destination": "/api/scam.js" }
+  ]
+}
