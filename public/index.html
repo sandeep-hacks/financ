@@ -1776,43 +1776,25 @@ async function handleFinanceQuery() {
     resultContainer.style.display = 'none';
     
     try {
-        // Determine API URL based on environment
-        const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-        const apiUrl = '/api/chat';
-
+        // Simulate API call delay
+        await new Promise(resolve => setTimeout(resolve, 1000));
         
-        console.log('📡 Calling API:', apiUrl);
-        
-        const response = await fetch(apiUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ message: query })
-        });
-        
-        console.log('✅ Response status:', response.status);
-        
-        if (!response.ok) {
-            throw new Error(`API Error: ${response.status}`);
-        }
-        
-        const data = await response.json();
-        console.log('📦 Received data:', data.mode);
+        // Get mock AI response
+        const response = getMockAIResponse(query);
         
         // Display the response
-        displayAIResponse(query, data.reply);
+        displayAIResponse(query, response);
         
         // Clear search input
         document.getElementById('financeSearch').value = '';
         
     } catch (error) {
-        console.error('❌ Error details:', error);
+        console.error('Error:', error);
         
-        // Fallback to offline response
-        const fallbackResponse = `I'm having trouble connecting to the AI service. Here's some general advice:\n\n${getOfflineResponse(query)}\n\n⚠️ Technical Issue: ${error.message}\n\nTry:\n1. Check your internet connection\n2. Make sure the server is running (if local)\n3. Contact support if problem persists`;
+        // Provide error message
+        const errorResponse = `I'm currently in demo mode. Here's what I would say about your question:\n\n${getOfflineResponse(query)}\n\nTo use the full AI features, you need to set up the backend server.`;
         
-        displayAIResponse(query, fallbackResponse);
+        displayAIResponse(query, errorResponse);
         
     } finally {
         // Reset button state
@@ -1821,22 +1803,114 @@ async function handleFinanceQuery() {
     }
 }
 
-// Offline fallback responses
-function getOfflineResponse(query) {
+function getMockAIResponse(query) {
     const lowerQuery = query.toLowerCase();
     
-    if (lowerQuery.includes('emi') || lowerQuery.includes('loan')) {
-        return "EMI should be less than 30% of your monthly income. For students, avoid loans unless absolutely necessary for education. Always compare interest rates from different banks.";
+    if (lowerQuery.includes('emi')) {
+        return `EMI (Equated Monthly Installment) is a fixed monthly payment for loans. As a student, I recommend keeping your total EMIs below 30% of your net income. 
+
+Key points:
+• Compare interest rates from different banks
+• Check for processing fees and hidden charges
+• Make sure you have an emergency fund before taking loans
+• Consider the loan tenure carefully
+
+For Indian students: Education loans usually have lower interest rates than personal loans. Always check if you qualify for government schemes.`;
+        
     } else if (lowerQuery.includes('credit card')) {
-        return "Credit cards can be risky. Always pay the full amount by due date, never just the minimum. Set a spending limit and monitor transactions weekly.";
-    } else if (lowerQuery.includes('scam')) {
-        return "Common student scams: fake job offers, scholarship frauds, and phishing messages. Never share OTPs, passwords, or banking details via SMS/WhatsApp.";
+        return `Credit cards can be useful but risky for students. Indian credit cards typically have 18-42% annual interest.
+
+Safety tips:
+1. ALWAYS pay the full amount by due date, not just the minimum
+2. Set a spending limit below your actual credit limit
+3. Never use credit cards for cash withdrawals (high fees)
+4. Check for annual fees and waivers
+5. Monitor transactions weekly
+
+Warning: Missing payments can severely damage your credit score, affecting future loan applications.`;
+        
+    } else if (lowerQuery.includes('scam') || lowerQuery.includes('fraud')) {
+        return `Common Indian financial scams targeting students:
+
+1. **Job Offer Scams**: "Pay ₹5000 for training/registration fee"
+2. **Scholarship Scams**: "Pay processing fee to claim scholarship"
+3. **Fake Loan Apps**: Instant loan apps asking for upfront fees
+4. **KYC Update Scams**: Fake calls/SMS about account suspension
+5. **Part-Time Job Scams**: "Earn ₹5000 daily from home"
+
+Red flags:
+• Urgent language ("ACT NOW", "LAST CHANCE")
+• Requests for OTP, password, or UPI PIN
+• Unverified WhatsApp/SMS from unknown numbers
+• Too-good-to-be-true offers
+
+If scammed:
+1. Call bank immediately to block cards
+2. File complaint at cybercrime.gov.in
+3. Report to local police`;
+        
     } else if (lowerQuery.includes('save') || lowerQuery.includes('budget')) {
-        return "Use the 50-30-20 rule: 50% needs, 30% wants, 20% savings. Track every expense for a month to understand your spending patterns.";
+        return `Budgeting tips for Indian students:
+
+**50-30-20 Rule (Adjusted for students):**
+• 50% → Essential expenses (rent, food, transport)
+• 30% → Education & learning (books, courses)
+• 20% → Savings & emergencies
+
+**Tools to use:**
+1. Google Sheets for tracking
+2. Splitwise for shared expenses
+3. Set up automatic transfers to savings
+
+**Start small:**
+• Save ₹500-1000 monthly in a Recurring Deposit
+• Build emergency fund of ₹10,000 first
+• Avoid unnecessary subscriptions`;
+        
+    } else if (lowerQuery.includes('loan') || lowerQuery.includes('debt')) {
+        return `Loan advice for students:
+
+**Good debt vs Bad debt:**
+✓ Good: Education loans (investment in future)
+✗ Bad: Personal loans for lifestyle expenses
+
+**Before taking any loan:**
+1. Calculate EMI using formula: EMI = P × r × (1+r)^n / [(1+r)^n - 1]
+2. Ensure EMI < 30% of expected starting salary
+3. Check for government subsidies (e.g., Vidyalakshmi portal)
+
+**For education loans:**
+• Interest rates: 8-12% for Indian banks
+• Moratorium period: Usually 6 months after course completion
+• Tax benefits: Section 80E allows deduction on interest`;
+        
     } else if (lowerQuery.includes('investment')) {
-        return "Start with small amounts (₹500/month). Consider RDs for safety or SIPs for long-term growth. Avoid 'get rich quick' schemes.";
+        return `Investment options for students in India:
+
+**Start with:**
+1. **Recurring Deposits (RDs)**: Safe, 5-7% returns
+2. **Systematic Investment Plans (SIPs)**: ₹500/month in mutual funds
+3. **PPF/SSY**: Long-term, tax-free savings
+
+**Avoid:**
+• Trading without knowledge
+• Cryptocurrency without research
+• "Get rich quick" schemes
+
+**Golden rule:** Never invest in something you don't understand. Start with ₹500/month and increase gradually.`;
+        
     } else {
-        return "Build an emergency fund of 3-6 months expenses first. Track your spending, save regularly, and avoid unnecessary debt.";
+        return `I understand you're asking about: "${query}"
+
+As a financial safety assistant for Indian students, here's my general advice:
+
+1. **Emergency Fund First**: Save 3-6 months of expenses before any major financial decision
+2. **Track Every Rupee**: Use apps like Money View or Walnut to track spending
+3. **Avoid Lifestyle Inflation**: Don't increase spending just because income increases
+4. **Learn About Taxes**: Understand TDS, Form 16, and ITR filing basics
+5. **Protect Personal Info**: Never share Aadhaar, PAN, or bank details casually
+
+For specific questions about loans, credit cards, scams, or investments, please be more specific!`;
     }
 }
 
