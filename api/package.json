@@ -8,6 +8,6 @@
   },
   "dependencies": {
     "openai": "^4.0.0",
-    "@google/generative-ai": "^0.8.0"
+    "@google/generative-ai": "^0.21.0"
   }
 }
