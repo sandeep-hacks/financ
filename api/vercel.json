@@ -1,0 +1,10 @@
+{
+  "functions": {
+    "api/*.js": {
+      "runtime": "nodejs18.x"
+    }
+  },
+  "env": {
+    "GEMINI_API_KEY": "AIzaSyDZdDJOt3cbT1eZcdxyU_ELUe3CnviLN-8"
+  }
+}
