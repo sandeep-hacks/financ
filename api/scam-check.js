@@ -17,44 +17,36 @@ export default async function handler(req, res) {
     // Get the Gemini Pro model
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
-  const prompt = `
-You are a financial scam detection system for Indian users.
+ const prompt = `
+You are an intelligent chat system.
 
-Task:
-Analyze the message below and determine whether it shows signs of a financial scam.
+FIRST, analyze the user's message and decide internally:
+- Does it show signs of financial scam or fraud? (Yes / No)
 
-Rules:
-- First, decide the result as one of the following ONLY:
-  SCAM
-  SAFE
+IF the message shows scam or fraud signals:
+You MUST respond ONLY in the following format:
 
-- If the message has ANY scam indicators (urgency, rewards, OTP request, links, KYC threat, unknown sender, payment demand), classify it as SCAM.
-- If the message is normal, informational, or from a clearly legitimate source with no red flags, classify it as SAFE.
-- Do NOT sit on the fence.
+⚠️ Scam Alert
+This message appears to be a financial scam.
+Reason: Briefly explain the key red flags detected.
 
-Output format (FOLLOW EXACTLY):
+IF the message does NOT show scam or fraud signals:
+You MUST respond normally like a regular chat assistant.
+- No warnings
+- No scam explanation
+- No bullet points
+- Just answer the user's message naturally
 
-Result
-[SCAM or SAFE]
+IMPORTANT RULES:
+- Do NOT mention analysis or decision-making
+- Do NOT explain why you chose this path
+- Output ONLY the final response
+- No extra text outside the response
 
-Explanation
-[2–4 lines explaining why it is classified as SCAM or SAFE. Mention specific signals or the lack of them.]
-
-Safety Tips
-- [Tip 1]
-- [Tip 2]
-- [Tip 3]
-- [Tip 4]
-
-Notes:
-- Safety tips must be relevant to Indian users.
-- If Result is SAFE, tips should be general awareness tips.
-- If Result is SCAM, tips should be defensive and action-oriented.
-- No extra text outside this format.
-
-Message to analyze:
+User message:
 "${message}"
 `;
+
 
     const result = await model.generateContent(prompt);
     const response = await result.response;
