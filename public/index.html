@@ -1,0 +1,1802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Financial Decision Safety Assistant | Imagine Cup Project</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables for consistent theming */
+        :root {
+            --primary-color: #2563eb;
+            --primary-dark: #1d4ed8;
+            --safe-color: #10b981;
+            --risky-color: #f59e0b;
+            --danger-color: #ef4444;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --bg-light: #f9fafb;
+            --bg-white: #ffffff;
+            --border-color: #e5e7eb;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --border-radius: 8px;
+            --transition: all 0.3s ease;
+        }
+
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 24px;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-size: 16px;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary {
+            background-color: white;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-large {
+            padding: 16px 32px;
+            font-size: 18px;
+        }
+
+        .card {
+            background-color: var(--bg-white);
+            border-radius: var(--border-radius);
+            padding: 24px;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-5px);
+        }
+
+        .section-title {
+            font-size: 32px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            color: var(--text-light);
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 48px;
+            font-size: 18px;
+        }
+
+        /* Header & Navigation */
+        .header {
+            background-color: var(--bg-white);
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 22px;
+            color: var(--primary-color);
+        }
+
+        .logo-icon {
+            color: var(--primary-color);
+            font-size: 24px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: var(--text-dark);
+            transition: var(--transition);
+            padding: 8px 0;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-link.active {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-dark);
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 100px 0 80px;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+        }
+
+        .hero-subtitle {
+            font-size: 20px;
+            color: var(--text-light);
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Why It Matters Section */
+        .why-section {
+            padding: 80px 0;
+            background-color: var(--bg-white);
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 32px;
+            margin-top: 40px;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 32px 24px;
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            font-size: 28px;
+            color: white;
+        }
+
+        .feature-card:nth-child(1) .feature-icon {
+            background-color: var(--primary-color);
+        }
+
+        .feature-card:nth-child(2) .feature-icon {
+            background-color: var(--safe-color);
+        }
+
+        .feature-card:nth-child(3) .feature-icon {
+            background-color: var(--danger-color);
+        }
+
+        .feature-card h3 {
+            font-size: 22px;
+            margin-bottom: 12px;
+        }
+
+        .feature-card p {
+            color: var(--text-light);
+        }
+
+        /* How It Works Section */
+        .how-section {
+            padding: 80px 0;
+            background-color: var(--bg-light);
+        }
+
+        .steps-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 60px;
+            position: relative;
+        }
+
+        .steps-container::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 10%;
+            width: 80%;
+            height: 2px;
+            background-color: var(--border-color);
+            z-index: 1;
+        }
+
+        .step {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+            max-width: 250px;
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 700;
+            margin: 0 auto 24px;
+            border: 8px solid var(--bg-light);
+        }
+
+        .step h3 {
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+
+        .step p {
+            color: var(--text-light);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--text-dark);
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .footer-about {
+            max-width: 350px;
+        }
+
+        .footer-links h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #d1d5db;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #374151;
+            color: #9ca3af;
+            font-size: 14px;
+        }
+
+        /* Page Content Styles */
+        .page-content {
+            padding: 60px 0;
+            min-height: calc(100vh - 200px);
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        /* Decision Safety Checker Page */
+        .decision-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+        }
+
+        @media (max-width: 992px) {
+            .decision-container {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+        }
+
+        .input-section h2, .result-section h2 {
+            font-size: 24px;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .result-panel {
+            position: sticky;
+            top: 100px;
+        }
+
+        .risk-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .risk-badge.safe {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--safe-color);
+        }
+
+        .risk-badge.risky {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: var(--risky-color);
+        }
+
+        .risk-badge.danger {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: var(--danger-color);
+        }
+
+        .risk-score {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 32px;
+            padding-bottom: 32px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .score-value {
+            font-size: 48px;
+            font-weight: 700;
+        }
+
+        .score-label {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        .result-card {
+            margin-bottom: 24px;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            background-color: var(--bg-light);
+        }
+
+        .result-card h3 {
+            font-size: 18px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .result-card p {
+            color: var(--text-dark);
+        }
+
+        .alternative-card {
+            background-color: rgba(16, 185, 129, 0.05);
+            border-left: 4px solid var(--safe-color);
+        }
+
+        /* Scam Checker Page */
+        .scam-checker-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .message-input {
+            width: 100%;
+            min-height: 200px;
+            padding: 16px;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+            margin-bottom: 24px;
+            resize: vertical;
+        }
+
+        .scam-result {
+            display: none;
+        }
+
+        .scam-verdict {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .verdict-badge {
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-weight: 600;
+        }
+
+        .verdict-badge.scam {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: var(--danger-color);
+        }
+
+        .verdict-badge.safe {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--safe-color);
+        }
+
+        /* Learn & Explain Page */
+        .learn-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .search-container {
+            margin-bottom: 48px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 16px 24px 16px 56px;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            font-size: 18px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            font-size: 20px;
+        }
+
+        .search-submit-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 10px 20px;
+        }
+
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .faq-card {
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .faq-card.active {
+            border-color: var(--primary-color);
+        }
+
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+
+        .faq-answer {
+            color: var(--text-light);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-card.active .faq-answer {
+            max-height: 300px;
+        }
+
+        /* AI Response Container */
+        .ai-response-container {
+            margin-top: 30px;
+        }
+
+        .ai-response-card {
+            border-left: 4px solid var(--primary-color);
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .response-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .user-question {
+            background: var(--bg-light);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .ai-answer {
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 36px;
+            }
+            
+            .hero-subtitle {
+                font-size: 18px;
+            }
+            
+            .section-title {
+                font-size: 28px;
+            }
+            
+            .steps-container {
+                flex-direction: column;
+                gap: 48px;
+            }
+            
+            .steps-container::before {
+                display: none;
+            }
+            
+            .step {
+                max-width: 100%;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background-color: var(--bg-white);
+                flex-direction: column;
+                padding: 20px;
+                gap: 0;
+                box-shadow: var(--shadow-md);
+                transform: translateY(-100%);
+                opacity: 0;
+                visibility: hidden;
+                transition: var(--transition);
+            }
+            
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+            
+            .nav-link {
+                width: 100%;
+                padding: 16px 0;
+                border-bottom: 1px solid var(--border-color);
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+            }
+            
+            .search-input {
+                padding-right: 70px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Navigation -->
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo">
+                    <i class="fas fa-shield-alt logo-icon"></i>
+                    <span>FinSafe AI</span>
+                </a>
+                
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <div class="nav-links" id="navLinks">
+                    <a href="#home" class="nav-link active" data-page="home">Home</a>
+                    <a href="#checker" class="nav-link" data-page="checker">Decision Checker</a>
+                    <a href="#scam" class="nav-link" data-page="scam">Scam Checker</a>
+                    <a href="#learn" class="nav-link" data-page="learn">Learn & Explain</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page Content Container -->
+    <main id="pageContent">
+        <!-- Home Page -->
+        <section id="homePage" class="page">
+            <!-- Hero Section -->
+            <section class="hero">
+                <div class="container">
+                    <div class="hero-content">
+                        <h1 class="hero-title">Stop Bad Money Decisions Before They Happen</h1>
+                        <p class="hero-subtitle">An AI-powered financial safety assistant for students and first-time earners</p>
+                        <a href="#checker" class="btn btn-primary btn-large" data-page="checker">
+                            <i class="fas fa-search"></i>
+                            Check My Decision
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Why It Matters Section -->
+            <section class="why-section">
+                <div class="container">
+                    <h2 class="section-title">Why This Matters</h2>
+                    <p class="section-subtitle">Financial mistakes early in your career can have long-lasting consequences. Our tool helps you avoid common pitfalls.</p>
+                    
+                    <div class="card-grid">
+                        <div class="card feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <h3>Students Are Vulnerable</h3>
+                            <p>Many students face financial decisions for the first time without proper guidance, leading to costly mistakes.</p>
+                        </div>
+                        
+                        <div class="card feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h3>Early Habits Matter</h3>
+                            <p>Financial habits formed early in your career can determine your long-term financial health and stability.</p>
+                        </div>
+                        
+                        <div class="card feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <h3>Scams Are Everywhere</h3>
+                            <p>Young earners are often targeted by sophisticated financial scams through SMS, email, and social media.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- How It Works Section -->
+            <section class="how-section">
+                <div class="container">
+                    <h2 class="section-title">How It Works</h2>
+                    <p class="section-subtitle">Three simple steps to protect yourself from financial mistakes</p>
+                    
+                    <div class="steps-container">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <h3>Enter Your Details</h3>
+                            <p>Input your income, expenses, and the financial decision you're considering.</p>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <h3>Get Risk Assessment</h3>
+                            <p>Our AI analyzes your data and gives you a clear safety rating with explanation.</p>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <h3>Make Safe Choices</h3>
+                            <p>Receive personalized alternatives and learn how to improve your financial decisions.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <!-- Decision Safety Checker Page -->
+        <section id="checkerPage" class="page" style="display: none;">
+            <div class="container page-content">
+                <div class="page-header">
+                    <h1 class="section-title">Decision Safety Checker</h1>
+                    <p class="section-subtitle">Check if your financial decision is safe before you commit</p>
+                </div>
+                
+                <div class="decision-container">
+                    <!-- Input Form Column -->
+                    <div class="input-section">
+                        <h2><i class="fas fa-edit"></i> Enter Your Details</h2>
+                        
+                        <div class="card">
+                            <form id="decisionForm">
+                                <div class="form-group">
+                                    <label for="income">Monthly Income (₹)</label>
+                                    <input type="number" id="income" class="form-control" placeholder="e.g., 30000" min="0" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="expenses">Monthly Expenses (₹)</label>
+                                    <input type="number" id="expenses" class="form-control" placeholder="e.g., 15000" min="0" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="decisionType">Decision Type</label>
+                                    <select id="decisionType" class="form-control" required>
+                                        <option value="">Select a decision type</option>
+                                        <option value="loan">Personal Loan</option>
+                                        <option value="emi">EMI Purchase</option>
+                                        <option value="credit">Credit Card</option>
+                                        <option value="subscription">Subscription</option>
+                                        <option value="investment">Investment</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="amount">Amount (₹)</label>
+                                        <input type="number" id="amount" class="form-control" placeholder="e.g., 50000" min="0" required>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="emi">Monthly EMI (₹)</label>
+                                        <input type="number" id="emi" class="form-control" placeholder="e.g., 2500" min="0">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="interest">Interest Rate (%) <span class="text-light">(Optional)</span></label>
+                                    <input type="number" id="interest" class="form-control" placeholder="e.g., 12" min="0" max="100" step="0.1">
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                                    <i class="fas fa-shield-alt"></i> Check Risk
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <!-- Results Column -->
+                    <div class="result-section">
+                        <h2><i class="fas fa-chart-pie"></i> Risk Analysis</h2>
+                        
+                        <div class="card result-panel">
+                            <div id="riskResult" style="display: none;">
+                                <div class="risk-badge" id="riskBadge">
+                                    <span id="riskLevel">Safe</span>
+                                </div>
+                                
+                                <div class="risk-score">
+                                    <div>
+                                        <div class="score-value" id="riskScore">25</div>
+                                        <div class="score-label">Risk Score (0-100)</div>
+                                    </div>
+                                    <div id="riskMeter"></div>
+                                </div>
+                                
+                                <div class="result-card">
+                                    <h3><i class="fas fa-info-circle"></i> Explanation</h3>
+                                    <p id="riskExplanation">Based on your income and expenses, this EMI represents 15% of your disposable income, which is within safe limits.</p>
+                                </div>
+                                
+                                <div class="result-card alternative-card">
+                                    <h3><i class="fas fa-lightbulb"></i> Safer Alternative</h3>
+                                    <p id="alternativeSuggestion">Consider reducing the EMI amount by extending the loan tenure or making a larger down payment to further reduce financial strain.</p>
+                                </div>
+                            </div>
+                            
+                            <div id="emptyResult">
+                                <div style="text-align: center; padding: 40px 20px;">
+                                    <i class="fas fa-chart-bar" style="font-size: 64px; color: var(--border-color); margin-bottom: 20px;"></i>
+                                    <h3 style="margin-bottom: 12px;">No Analysis Yet</h3>
+                                    <p style="color: var(--text-light);">Fill out the form and click "Check Risk" to see your personalized financial safety analysis.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Scam Message Checker Page -->
+        <section id="scamPage" class="page" style="display: none;">
+<!-- In your scamPage section, add this after the form -->
+<div class="scam-checker-container">
+    <div class="card">
+        <div class="form-group">
+            <label for="messageInput">Paste SMS / WhatsApp / Email Text</label>
+            <textarea id="messageInput" class="message-input" 
+                      placeholder="Paste the suspicious message here..."></textarea>
+        </div>
+        
+        <button id="analyzeMessageBtn" class="btn btn-primary" style="width: 100%; margin-bottom: 32px;">
+            <i class="fas fa-search"></i> Analyze Message
+        </button>
+        
+        <!-- Scam Knowledge Base Toggle -->
+        <div class="scam-knowledge-toggle">
+            <h3><i class="fas fa-database"></i> Scam Pattern Database</h3>
+            <div class="knowledge-base-stats">
+                <span><i class="fas fa-shield-alt"></i> 25+ scam patterns loaded</span>
+                <span><i class="fas fa-keywords"></i> 150+ keywords monitored</span>
+            </div>
+        </div>
+        
+        <!-- Scam Results -->
+        <div id="scamResult" class="scam-result" style="display: none;">
+            <div class="scam-verdict">
+                <div class="verdict-badge" id="verdictBadge">Likely Scam</div>
+                <h3 id="verdictText">This message is likely a financial scam</h3>
+            </div>
+            
+            <div class="result-card">
+                <h3><i class="fas fa-exclamation-circle"></i> Explanation</h3>
+                <p id="scamExplanation">This message contains several red flags commonly found in financial scams.</p>
+            </div>
+            
+            <div class="result-card">
+                <h3><i class="fas fa-shield-alt"></i> Safety Tips</h3>
+                <ul id="safetyTips" style="padding-left: 20px;">
+                    <li>Never share personal or financial information via SMS or WhatsApp</li>
+                    <li>Verify any claims directly with your bank or financial institution</li>
+                    <li>Avoid clicking on links in unsolicited messages</li>
+                </ul>
+            </div>
+            
+            <!-- Scam Pattern Match Details -->
+            <div class="result-card pattern-match-card">
+                <h3><i class="fas fa-fingerprint"></i> Detected Patterns</h3>
+                <div id="patternMatches"></div>
+            </div>
+        </div>
+    </div>
+</div>
+        </section>
+
+        <!-- Learn & Explain Page -->
+        <section id="learnPage" class="page" style="display: none;">
+            <div class="container page-content">
+                <div class="page-header">
+                    <h1 class="section-title">Learn & Explain</h1>
+                    <p class="section-subtitle">Get simple explanations for common financial questions</p>
+                </div>
+                
+                <div class="learn-container">
+                    <div class="search-container">
+                        <form id="financeForm">
+                            <div class="search-icon">
+                                <i class="fas fa-search"></i>
+                            </div>
+                            <input type="text" id="financeSearch" class="search-input" 
+                                   placeholder="Ask a finance question (e.g., What is EMI? Why are credit cards risky?)">
+                            <button type="submit" class="search-submit-btn" style="display: none;">Ask</button>
+                        </form>
+                        <button class="btn btn-primary" id="askButton" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); padding: 10px 20px;">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- AI Response Area -->
+                    <div id="aiResponseContainer" class="ai-response-container" style="display: none;">
+                        <!-- AI responses will appear here -->
+                    </div>
+                    
+                    <h2 style="margin-bottom: 24px; margin-top: 40px;">Frequently Asked Questions</h2>
+                    
+                    <div class="faq-grid">
+                        <!-- FAQ cards will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <div class="footer-logo">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>FinSafe AI</span>
+                    </div>
+                    <p>An AI-powered financial safety assistant for students and first-time earners. Part of the Imagine Cup project.</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home" data-page="home">Home</a></li>
+                        <li><a href="#checker" data-page="checker">Decision Checker</a></li>
+                        <li><a href="#scam" data-page="scam">Scam Checker</a></li>
+                        <li><a href="#learn" data-page="learn">Learn & Explain</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#" onclick="alert('Financial literacy resources coming soon!')">Financial Literacy</a></li>
+                        <li><a href="#" onclick="alert('Budgeting tools coming soon!')">Budgeting Tools</a></li>
+                        <li><a href="#" onclick="alert('Scam prevention guide coming soon!')">Scam Prevention</a></li>
+                        <li><a href="#" onclick="alert('Student finance guide coming soon!')">Student Finance</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2023 AI Financial Decision Safety Assistant | Imagine Cup Project | For demonstration purposes only</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const appState = {
+            currentPage: 'home',
+            riskData: null,
+            scamData: null
+        };
+
+        // Mock data for FAQs
+        const faqData = [
+            {
+                question: "What is EMI?",
+                answer: "EMI (Equated Monthly Installment) is a fixed payment amount made by a borrower to a lender at a specified date each calendar month. EMIs are used to pay off both interest and principal each month, so that over a specified number of years, the loan is paid off in full."
+            },
+            {
+                question: "Why are credit cards risky?",
+                answer: "Credit cards can be risky because they allow you to spend money you don't have, often with high interest rates (typically 18-42% annually). If you only pay the minimum amount due, you can accumulate debt quickly. They also have various fees and can negatively impact your credit score if not managed properly."
+            },
+            {
+                question: "What happens if I miss a payment?",
+                answer: "Missing a payment can result in: 1) Late payment fees, 2) Increased interest rates, 3) Negative impact on your credit score, 4) Possible collection calls, and 5) In severe cases, legal action. Always contact your lender immediately if you anticipate missing a payment to discuss alternatives."
+            },
+            {
+                question: "How much of my income should go to EMI?",
+                answer: "Financial experts generally recommend that your total EMIs (for all loans) should not exceed 40% of your monthly income. A safer range is 30% or less. This ensures you have enough money for living expenses, savings, and emergencies."
+            },
+            {
+                question: "What is a good credit score?",
+                answer: "In India, credit scores range from 300-900. A score above 750 is generally considered excellent, 700-749 is good, 650-699 is fair, and below 650 is poor. A higher credit score makes it easier to get loans with better interest rates and terms."
+            },
+            {
+                question: "How can I avoid financial scams?",
+                answer: "1) Never share OTPs, passwords, or PINs with anyone. 2) Verify unexpected calls/messages directly with your bank. 3) Don't click on suspicious links. 4) Be wary of 'too good to be true' offers. 5) Check the sender's details carefully. 6) Use official apps/websites for financial transactions."
+            }
+        ];
+
+        // Scam message examples
+        const scamExamples = {
+            1: "Congratulations! You've been selected for a pre-approved personal loan of ₹5,00,000 at 7% interest. Click here to claim: http://fakebank-offer.com/apply",
+            2: "Investment Alert: Get 300% returns in 3 months on our crypto trading platform. Limited spots available. Register now: http://super-investments.net",
+            3: "URGENT: Your bank account has been temporarily suspended due to suspicious activity. Verify your details immediately to restore access: http://secure-bank-verify.com"
+        };
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeNavigation();
+            initializeDecisionChecker();
+            initializeScamChecker();
+            initializeLearnPage();
+            updateRiskMeter(25); // Initial empty state
+        });
+
+        // Navigation functionality
+        function initializeNavigation() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const navLinksContainer = document.getElementById('navLinks');
+            
+            // Handle navigation link clicks
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const page = this.getAttribute('data-page');
+                    navigateToPage(page);
+                    
+                    // Update active state
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Close mobile menu if open
+                    navLinksContainer.classList.remove('active');
+                });
+            });
+            
+            // Handle mobile menu button
+            mobileMenuBtn.addEventListener('click', function() {
+                navLinksContainer.classList.toggle('active');
+            });
+            
+            // Handle footer navigation links
+            document.querySelectorAll('.footer-links a[data-page]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const page = this.getAttribute('data-page');
+                    navigateToPage(page);
+                    
+                    // Update active state in main nav
+                    navLinks.forEach(l => {
+                        l.classList.remove('active');
+                        if (l.getAttribute('data-page') === page) {
+                            l.classList.add('active');
+                        }
+                    });
+                });
+            });
+            
+            // Handle CTA button on homepage
+            document.querySelector('.hero-content .btn').addEventListener('click', function(e) {
+                e.preventDefault();
+                navigateToPage('checker');
+                
+                // Update active state
+                navLinks.forEach(l => l.classList.remove('active'));
+                document.querySelector('.nav-link[data-page="checker"]').classList.add('active');
+            });
+        }
+
+        // Page navigation function
+        function navigateToPage(page) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(p => {
+                p.style.display = 'none';
+            });
+            
+            // Show the selected page
+            document.getElementById(`${page}Page`).style.display = 'block';
+            
+            // Update app state
+            appState.currentPage = page;
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+            
+            // Update mobile menu state
+            document.getElementById('navLinks').classList.remove('active');
+        }
+
+        // Decision Checker functionality
+        function initializeDecisionChecker() {
+            const decisionForm = document.getElementById('decisionForm');
+            
+            decisionForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form values
+                const income = parseFloat(document.getElementById('income').value) || 0;
+                const expenses = parseFloat(document.getElementById('expenses').value) || 0;
+                const decisionType = document.getElementById('decisionType').value;
+                const amount = parseFloat(document.getElementById('amount').value) || 0;
+                const emi = parseFloat(document.getElementById('emi').value) || 0;
+                const interest = parseFloat(document.getElementById('interest').value) || 0;
+                
+                // Calculate risk
+                const riskResult = calculateRisk(income, expenses, decisionType, amount, emi, interest);
+                
+                // Update UI with results
+                updateRiskDisplay(riskResult);
+            });
+            
+            // Auto-calculate EMI if amount and interest are provided
+            document.getElementById('amount').addEventListener('blur', autoCalculateEMI);
+            document.getElementById('interest').addEventListener('blur', autoCalculateEMI);
+        }
+
+        // Risk calculation logic (mock implementation)
+        function calculateRisk(income, expenses, decisionType, amount, emi, interest) {
+            // Calculate disposable income
+            const disposableIncome = income - expenses;
+            
+            // Default calculations if EMI is not provided
+            let calculatedEMI = emi;
+            if (emi === 0 && amount > 0 && interest > 0) {
+                // Simple EMI calculation: P * r * (1+r)^n / ((1+r)^n - 1)
+                // Using 3-year tenure as default
+                const monthlyRate = interest / 100 / 12;
+                const tenureMonths = 36;
+                calculatedEMI = amount * monthlyRate * Math.pow(1 + monthlyRate, tenureMonths) / 
+                               (Math.pow(1 + monthlyRate, tenureMonths) - 1);
+                calculatedEMI = Math.round(calculatedEMI);
+            } else if (emi === 0 && amount > 0) {
+                // If no interest provided, assume 12% and 3-year tenure
+                const monthlyRate = 0.12 / 12;
+                const tenureMonths = 36;
+                calculatedEMI = amount * monthlyRate * Math.pow(1 + monthlyRate, tenureMonths) / 
+                               (Math.pow(1 + monthlyRate, tenureMonths) - 1);
+                calculatedEMI = Math.round(calculatedEMI);
+            }
+            
+            // Calculate EMI as percentage of income
+            const emiPercentage = income > 0 ? (calculatedEMI / income) * 100 : 0;
+            
+            // Calculate EMI as percentage of disposable income
+            const emiDisposablePercentage = disposableIncome > 0 ? (calculatedEMI / disposableIncome) * 100 : 100;
+            
+            // Determine risk level based on EMI percentage (as per demo requirements)
+            let riskLevel, riskScore, explanation, alternative;
+            
+            if (emiPercentage > 40 || emiDisposablePercentage > 70) {
+                riskLevel = "Dangerous";
+                riskScore = Math.min(90 + Math.floor(Math.random() * 10), 100);
+                explanation = `This EMI represents ${emiPercentage.toFixed(1)}% of your monthly income, which is dangerously high. At this rate, you'll have very little left for emergencies, savings, or unexpected expenses.`;
+                alternative = "Consider reducing the loan amount, extending the tenure significantly, or postponing this purchase until your income increases. Look for cheaper alternatives or save up for a larger down payment.";
+            } else if (emiPercentage >= 30 || emiDisposablePercentage >= 50) {
+                riskLevel = "Risky";
+                riskScore = Math.min(60 + Math.floor(Math.random() * 20), 89);
+                explanation = `This EMI represents ${emiPercentage.toFixed(1)}% of your monthly income, which is on the higher side. While manageable, it leaves limited room for other financial goals or unexpected expenses.`;
+                alternative = "Try to reduce the EMI by extending the loan tenure or making a larger down payment. Consider if this purchase is essential or if there are more affordable options available.";
+            } else {
+                riskLevel = "Safe";
+                riskScore = Math.max(10, Math.floor(emiPercentage * 2) + Math.floor(Math.random() * 10));
+                explanation = `This EMI represents ${emiPercentage.toFixed(1)}% of your monthly income, which is within safe limits. You should have enough disposable income for other expenses and savings.`;
+                alternative = "This looks like a reasonable financial decision. To make it even safer, consider setting up automatic payments and building an emergency fund equal to 3-6 months of EMIs.";
+            }
+            
+            // Adjust based on decision type
+            if (decisionType === "credit") {
+                explanation += " Credit cards often have higher interest rates than personal loans, so consider comparing alternatives.";
+            } else if (decisionType === "subscription") {
+                explanation += " Remember that subscriptions are recurring expenses that can add up over time.";
+            }
+            
+            return {
+                riskLevel,
+                riskScore,
+                explanation,
+                alternative,
+                emiPercentage: emiPercentage.toFixed(1),
+                calculatedEMI: Math.round(calculatedEMI)
+            };
+        }
+
+        // Update risk display with results
+        function updateRiskDisplay(riskResult) {
+            // Show result panel
+            document.getElementById('emptyResult').style.display = 'none';
+            document.getElementById('riskResult').style.display = 'block';
+            
+            // Update risk badge
+            const riskBadge = document.getElementById('riskBadge');
+            riskBadge.className = `risk-badge ${riskResult.riskLevel.toLowerCase()}`;
+            riskBadge.innerHTML = `<i class="fas fa-${riskResult.riskLevel === 'Safe' ? 'check-circle' : riskResult.riskLevel === 'Risky' ? 'exclamation-triangle' : 'exclamation-circle'}"></i> <span id="riskLevel">${riskResult.riskLevel}</span>`;
+            
+            // Update risk score
+            document.getElementById('riskScore').textContent = riskResult.riskScore;
+            
+            // Update explanation
+            document.getElementById('riskExplanation').textContent = riskResult.explanation;
+            
+            // Update alternative suggestion
+            document.getElementById('alternativeSuggestion').textContent = riskResult.alternative;
+            
+            // Update risk meter
+            updateRiskMeter(riskResult.riskScore);
+            
+            // Update app state
+            appState.riskData = riskResult;
+        }
+
+        // Create visual risk meter
+        function updateRiskMeter(score) {
+            const riskMeter = document.getElementById('riskMeter');
+            let meterHTML = '<div style="width: 200px;">';
+            
+            // Create meter segments
+            const segments = [
+                { range: [0, 30], color: 'var(--safe-color)', label: 'Safe' },
+                { range: [30, 60], color: 'var(--risky-color)', label: 'Risky' },
+                { range: [60, 100], color: 'var(--danger-color)', label: 'Danger' }
+            ];
+            
+            segments.forEach(segment => {
+                const width = segment.range[1] - segment.range[0];
+                meterHTML += `
+                    <div style="display: inline-block; width: ${width}%; height: 10px; background-color: ${segment.color}; border-radius: 5px;"></div>
+                `;
+            });
+            
+            // Add marker for current score
+            const markerPosition = Math.min(score, 100);
+            meterHTML += `
+                <div style="position: relative; width: 100%; margin-top: 5px;">
+                    <div style="position: absolute; left: ${markerPosition}%; transform: translateX(-50%);">
+                        <div style="width: 0; height: 0; border-left: 8px solid transparent; border-right: 8px solid transparent; border-top: 12px solid var(--text-dark); margin-bottom: 2px;"></div>
+                        <div style="font-size: 12px; font-weight: 600; white-space: nowrap;">${score}</div>
+                    </div>
+                </div>
+            `;
+            
+            meterHTML += '</div>';
+            riskMeter.innerHTML = meterHTML;
+        }
+
+        // Auto-calculate EMI function
+        function autoCalculateEMI() {
+            const amount = parseFloat(document.getElementById('amount').value) || 0;
+            const interest = parseFloat(document.getElementById('interest').value) || 12; // Default to 12%
+            
+            if (amount > 0 && !document.getElementById('emi').value) {
+                // Simple EMI calculation with default 3-year tenure
+                const monthlyRate = interest / 100 / 12;
+                const tenureMonths = 36;
+                const emi = amount * monthlyRate * Math.pow(1 + monthlyRate, tenureMonths) / 
+                           (Math.pow(1 + monthlyRate, tenureMonths) - 1);
+                
+                document.getElementById('emi').value = Math.round(emi);
+            }
+        }
+
+        // Scam Checker functionality
+// Scam Checker functionality with Gemini API
+async function analyzeMessage(message) {
+    if (!message) {
+        alert('Please paste a message to analyze.');
+        return;
+    }
+
+    // Show loading state
+    const analyzeBtn = document.getElementById('analyzeMessageBtn');
+    const originalContent = analyzeBtn.innerHTML;
+    analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing...';
+    analyzeBtn.disabled = true;
+
+    // Clear previous results
+    const resultContainer = document.getElementById('scamResult');
+    resultContainer.style.display = 'none';
+
+    try {
+        // Call Gemini API
+        console.log('Sending message to Gemini API:', message.substring(0, 100) + '...');
+        
+        const response = await fetch('/api/scam-check', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ message: message })
+        });
+
+        console.log('Response status:', response.status);
+
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log('Received analysis:', data);
+
+        if (data.error) {
+            throw new Error(data.error);
+        }
+
+        // Display the results
+        updateScamDisplay(data.verdict, data.verdictText, data.badgeClass, data.explanation, data.safetyTips);
+
+    } catch (error) {
+        console.error('Error analyzing message:', error);
+        
+        // Fallback to offline analysis
+        const offlineAnalysis = getOfflineScamResponse(message);
+        updateScamDisplay(
+            offlineAnalysis.verdict, 
+            offlineAnalysis.verdictText, 
+            offlineAnalysis.badgeClass, 
+            offlineAnalysis.explanation, 
+            offlineAnalysis.safetyTips
+        );
+        
+    } finally {
+        // Reset button state
+        analyzeBtn.innerHTML = originalContent;
+        analyzeBtn.disabled = false;
+    }
+}
+
+// Update scam checker display with Gemini results
+function updateScamDisplay(verdict, verdictText, badgeClass, explanation, safetyTips) {
+    // Show result section
+    const resultContainer = document.getElementById('scamResult');
+    resultContainer.style.display = 'block';
+    
+    // Update verdict
+    const verdictBadge = document.getElementById('verdictBadge');
+    verdictBadge.className = `verdict-badge ${badgeClass}`;
+    verdictBadge.textContent = verdict;
+    
+    // Update verdict text
+    document.getElementById('verdictText').textContent = verdictText;
+    
+    // Update explanation
+    document.getElementById('scamExplanation').textContent = explanation;
+    
+    // Update safety tips
+    const safetyTipsList = document.getElementById('safetyTips');
+    safetyTipsList.innerHTML = '';
+    
+    safetyTips.forEach(tip => {
+        const li = document.createElement('li');
+        li.textContent = tip;
+        safetyTipsList.appendChild(li);
+    });
+    
+    // Scroll to results
+    resultContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// Offline fallback analysis
+function getOfflineScamResponse(message) {
+    const lowerMessage = message.toLowerCase();
+    
+    // Simple keyword detection
+    const scamKeywords = [
+        'urgent', 'congratulations', 'click here', 'verify', 'suspended',
+        'pre-approved', 'limited time', 'guaranteed', 'free', 'winner',
+        'password', 'otp', 'account', 'loan approved', 'click link',
+        'limited offer', 'exclusive', 'you have won', 'claim now'
+    ];
+    
+    let score = 0;
+    scamKeywords.forEach(keyword => {
+        if (lowerMessage.includes(keyword)) {
+            score += 1;
+        }
+    });
+    
+    // URLs increase suspicion
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    const hasUrls = message.match(urlRegex);
+    if (hasUrls) score += 2;
+    
+    let verdict, verdictText, badgeClass, explanation, safetyTips;
+    
+    if (score >= 5) {
+        verdict = "Likely Scam";
+        verdictText = "⚠️ DANGER! This message shows strong signs of being a financial scam";
+        badgeClass = "danger";
+        explanation = "This message contains multiple scam indicators including urgency, suspicious links, and promises that seem too good to be true.";
+        safetyTips = [
+            "Do not click any links in this message",
+            "Never share OTPs, passwords, or PINs with anyone",
+            "Verify any claims directly with your bank using official contact information",
+            "Delete this message immediately"
+        ];
+    } else if (score >= 3) {
+        verdict = "Suspicious";
+        verdictText = "⚠️ This message contains suspicious elements - proceed with caution";
+        badgeClass = "warning";
+        explanation = "This message shows several warning signs of potential scams. While it might be legitimate, you should proceed with extreme caution.";
+        safetyTips = [
+            "Verify the sender's identity through official channels",
+            "Look for spelling and grammar errors which are common in scams",
+            "Check if the offer seems too good to be true (it probably is)",
+            "Contact the organization directly using contact info from their official website"
+        ];
+    } else {
+        verdict = "Possibly Safe";
+        verdictText = "This message doesn't show obvious signs of being a scam";
+        badgeClass = "safe";
+        explanation = "This message doesn't show obvious signs of being a scam, but you should still verify any financial offers through official channels before taking action.";
+        safetyTips = [
+            "Always verify financial offers through official channels",
+            "Be cautious even with messages that appear legitimate",
+            "Keep your personal and financial information secure",
+            "Regularly monitor your bank statements for unauthorized transactions"
+        ];
+    }
+    
+    return { verdict, verdictText, badgeClass, explanation, safetyTips };
+}
+
+// Initialize scam checker with the new function
+function initializeScamChecker() {
+    const analyzeBtn = document.getElementById('analyzeMessageBtn');
+    
+    analyzeBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const message = document.getElementById('messageInput').value.trim();
+        analyzeMessage(message);
+    });
+    
+    // Example scam messages for testing
+    const exampleBtn = document.createElement('button');
+    exampleBtn.className = 'btn btn-secondary';
+    exampleBtn.style.marginTop = '10px';
+    exampleBtn.innerHTML = '<i class="fas fa-vial"></i> Test with Example Scam Message';
+    exampleBtn.addEventListener('click', function() {
+        const exampleMessage = "Congratulations! You've been selected for a pre-approved personal loan of ₹5,00,000 at 7% interest. Click here to claim: http://fakebank-offer.com/apply";
+        document.getElementById('messageInput').value = exampleMessage;
+    });
+    
+    document.querySelector('.scam-checker-container .card').appendChild(exampleBtn);
+}
+
+        // Learn & Explain page functionality with ChatGPT integration
+        function initializeLearnPage() {
+            // Populate FAQ cards
+            const faqGrid = document.querySelector('.faq-grid');
+            
+            faqData.forEach((faq, index) => {
+                const faqCard = document.createElement('div');
+                faqCard.className = 'card faq-card';
+                faqCard.innerHTML = `
+                    <div class="faq-question">
+                        <span>${faq.question}</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>${faq.answer}</p>
+                    </div>
+                `;
+                
+                // Add click event to toggle answer
+                faqCard.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    const icon = this.querySelector('.faq-question i');
+                    if (this.classList.contains('active')) {
+                        icon.className = 'fas fa-chevron-up';
+                    } else {
+                        icon.className = 'fas fa-chevron-down';
+                    }
+                });
+                
+                faqGrid.appendChild(faqCard);
+            });
+            
+            // Search functionality with ChatGPT integration
+            const searchInput = document.getElementById('financeSearch');
+            const financeForm = document.getElementById('financeForm');
+            const askButton = document.getElementById('askButton');
+            
+            // Handle form submission
+            financeForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                handleFinanceQuery();
+            });
+            
+            // Handle ask button click
+            askButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                handleFinanceQuery();
+            });
+            
+            // Handle Enter key press
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    handleFinanceQuery();
+                }
+            });
+            
+            // Create AI response container if it doesn't exist
+            let aiContainer = document.getElementById('aiResponseContainer');
+            if (!aiContainer) {
+                aiContainer = document.createElement('div');
+                aiContainer.id = 'aiResponseContainer';
+                aiContainer.className = 'ai-response-container';
+                aiContainer.style.display = 'none';
+                document.querySelector('.learn-container').insertBefore(aiContainer, document.querySelector('.learn-container h2'));
+            }
+        }
+
+        // Handle finance query with ChatGPT API
+// Handle finance query with API
+async function handleFinanceQuery() {
+    const query = document.getElementById('financeSearch').value.trim();
+    
+    if (!query) {
+        alert('Please enter a finance question.');
+        return;
+    }
+    
+    // Show loading state
+    const askButton = document.getElementById('askButton');
+    const originalContent = askButton.innerHTML;
+    askButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    askButton.disabled = true;
+    
+    // Clear previous results
+    const resultContainer = document.getElementById('aiResponseContainer');
+    resultContainer.innerHTML = '';
+    resultContainer.style.display = 'none';
+    
+    try {
+        // Determine API URL based on environment
+        const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        const apiUrl = '/api/chat';
+
+        
+        console.log('📡 Calling API:', apiUrl);
+        
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ message: query })
+        });
+        
+        console.log('✅ Response status:', response.status);
+        
+        if (!response.ok) {
+            throw new Error(`API Error: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log('📦 Received data:', data.mode);
+        
+        // Display the response
+        displayAIResponse(query, data.reply);
+        
+        // Clear search input
+        document.getElementById('financeSearch').value = '';
+        
+    } catch (error) {
+        console.error('❌ Error details:', error);
+        
+        // Fallback to offline response
+        const fallbackResponse = `I'm having trouble connecting to the AI service. Here's some general advice:\n\n${getOfflineResponse(query)}\n\n⚠️ Technical Issue: ${error.message}\n\nTry:\n1. Check your internet connection\n2. Make sure the server is running (if local)\n3. Contact support if problem persists`;
+        
+        displayAIResponse(query, fallbackResponse);
+        
+    } finally {
+        // Reset button state
+        askButton.innerHTML = originalContent;
+        askButton.disabled = false;
+    }
+}
+
+// Offline fallback responses
+function getOfflineResponse(query) {
+    const lowerQuery = query.toLowerCase();
+    
+    if (lowerQuery.includes('emi') || lowerQuery.includes('loan')) {
+        return "EMI should be less than 30% of your monthly income. For students, avoid loans unless absolutely necessary for education. Always compare interest rates from different banks.";
+    } else if (lowerQuery.includes('credit card')) {
+        return "Credit cards can be risky. Always pay the full amount by due date, never just the minimum. Set a spending limit and monitor transactions weekly.";
+    } else if (lowerQuery.includes('scam')) {
+        return "Common student scams: fake job offers, scholarship frauds, and phishing messages. Never share OTPs, passwords, or banking details via SMS/WhatsApp.";
+    } else if (lowerQuery.includes('save') || lowerQuery.includes('budget')) {
+        return "Use the 50-30-20 rule: 50% needs, 30% wants, 20% savings. Track every expense for a month to understand your spending patterns.";
+    } else if (lowerQuery.includes('investment')) {
+        return "Start with small amounts (₹500/month). Consider RDs for safety or SIPs for long-term growth. Avoid 'get rich quick' schemes.";
+    } else {
+        return "Build an emergency fund of 3-6 months expenses first. Track your spending, save regularly, and avoid unnecessary debt.";
+    }
+}
+
+        // Display AI response in the Learn & Explain section
+        function displayAIResponse(question, answer) {
+            const resultContainer = document.getElementById('aiResponseContainer');
+            
+            // Create response card
+            const responseCard = document.createElement('div');
+            responseCard.className = 'card ai-response-card';
+            
+            responseCard.innerHTML = `
+                <div class="response-header">
+                    <h3 style="display: flex; align-items: center; gap: 10px; color: var(--primary-color);">
+                        <i class="fas fa-robot"></i>
+                        AI Financial Advice
+                    </h3>
+                    <div style="font-size: 12px; color: var(--text-light); margin-bottom: 10px;">
+                        <i class="fas fa-clock"></i> ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </div>
+                </div>
+                
+                <div class="user-question" style="background: var(--bg-light); padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                    <strong><i class="fas fa-user"></i> You asked:</strong>
+                    <p style="margin-top: 5px;">${question}</p>
+                </div>
+                
+                <div class="ai-answer">
+                    <strong><i class="fas fa-shield-alt"></i> Advice:</strong>
+                    <div style="margin-top: 10px; line-height: 1.6; white-space: pre-wrap;">${answer}</div>
+                </div>
+                
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <button class="btn btn-secondary copy-btn" style="font-size: 14px; padding: 8px 16px;">
+                        <i class="fas fa-copy"></i> Copy Answer
+                    </button>
+                    <button class="btn btn-secondary new-btn" style="font-size: 14px; padding: 8px 16px;">
+                        <i class="fas fa-plus"></i> New Question
+                    </button>
+                </div>
+            `;
+            
+            // Add copy functionality
+            const copyBtn = responseCard.querySelector('.copy-btn');
+            copyBtn.addEventListener('click', () => {
+                navigator.clipboard.writeText(answer).then(() => {
+                    const originalText = copyBtn.innerHTML;
+                    copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                    setTimeout(() => {
+                        copyBtn.innerHTML = originalText;
+                    }, 2000);
+                });
+            });
+            
+            // Add new question functionality
+            const newBtn = responseCard.querySelector('.new-btn');
+            newBtn.addEventListener('click', () => {
+                resultContainer.style.display = 'none';
+                resultContainer.innerHTML = '';
+                document.getElementById('financeSearch').focus();
+            });
+            
+            resultContainer.innerHTML = '';
+            resultContainer.appendChild(responseCard);
+            resultContainer.style.display = 'block';
+            
+            // Scroll to response
+            resultContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    </script>
+</body>
+</html>
