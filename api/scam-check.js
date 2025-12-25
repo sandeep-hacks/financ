@@ -17,19 +17,44 @@ export default async function handler(req, res) {
     // Get the Gemini Pro model
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
-    const prompt = `
-    Analyze the following message for potential financial scams. Provide your analysis in EXACTLY this format:
-    
-    Explanation
-    [Your explanation here. Explain why this message is or isn't a scam. Mention specific red flags or safe indicators. Keep it concise but informative.]
-    
-    Safety Tips
-    [Provide 4-5 actionable safety tips. Each tip should be on a new line starting with "- ". Make them practical and specific for Indian students.]
+  const prompt = `
+You are a financial scam detection system for Indian users.
 
-    The message to analyze: "${message}"
-    
-    Important: Follow the format exactly as shown above with "Explanation" and "Safety Tips" headings.
-    `;
+Task:
+Analyze the message below and determine whether it shows signs of a financial scam.
+
+Rules:
+- First, decide the result as one of the following ONLY:
+  SCAM
+  SAFE
+
+- If the message has ANY scam indicators (urgency, rewards, OTP request, links, KYC threat, unknown sender, payment demand), classify it as SCAM.
+- If the message is normal, informational, or from a clearly legitimate source with no red flags, classify it as SAFE.
+- Do NOT sit on the fence.
+
+Output format (FOLLOW EXACTLY):
+
+Result
+[SCAM or SAFE]
+
+Explanation
+[2–4 lines explaining why it is classified as SCAM or SAFE. Mention specific signals or the lack of them.]
+
+Safety Tips
+- [Tip 1]
+- [Tip 2]
+- [Tip 3]
+- [Tip 4]
+
+Notes:
+- Safety tips must be relevant to Indian users.
+- If Result is SAFE, tips should be general awareness tips.
+- If Result is SCAM, tips should be defensive and action-oriented.
+- No extra text outside this format.
+
+Message to analyze:
+"${message}"
+`;
 
     const result = await model.generateContent(prompt);
     const response = await result.response;
